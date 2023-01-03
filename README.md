@@ -53,6 +53,10 @@ Son 24 saatte gerçekleşen depremleri getirir.
 https://api.hknsoft.com/earthquake/v1/last24hours
 ~~~
 
+~~~
+https://api.hknsoft.com/earthquake/v1/last24hours?limit=500&city=bursa
+~~~
+
 -----------------------------------------
 
 ### JSON Çıktısı
