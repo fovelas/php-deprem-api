@@ -29,7 +29,7 @@ Kandilli Rasathanesi'nin yayınladığı Türkiye geneli tüm depremler için RE
 -----------------------------------------
 
 ### Kullanım
-**01/2003 tarihinden bugüne kadar tüm deprem verilerine ulaşabilirsiniz.**
+`01/2003 tarihinden bugüne kadar tüm deprem verilerine ulaşabilirsiniz.`
 
 2023'ün Ocak ayında gerçekleşen depremleri getirir. Default olarak 50 sonuç getirir.
 ~~~
@@ -89,6 +89,6 @@ https://api.hknsoft.com/earthquake/v1/last24hours
 ### Uyarı
 _Söz konusu bilgi, veri ve haritalar Boğaziçi Üniversitesi Rektörlüğü’nün yazılı izni ve onayı olmadan herhangi bir şekilde ticari amaçlı kullanılamaz._
 
-Bu api Kandilli Rasathanesi'nin yayınladığı depremleri çekmektedir.
+Bu API Kandilli Rasathanesi'nin yayınladığı deprem verilerini kullanmaktadır.
 
 Referans: http://www.koeri.boun.edu.tr/scripts/lasteq.asp
