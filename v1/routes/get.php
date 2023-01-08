@@ -6,18 +6,29 @@ require_once 'classes/parser.php';
  *
  * @param string $message
  * @param integer $code
+ * @param string $detail
  * @return void
  */
-function error($message, $code)
+function error($message, $code, $detail = null)
 {
     http_response_code(404);
 
-    $res = array(
-        'error' => array(
-            'message' => $message,
-            'code' => $code,
-        ),
-    );
+    if ($detail == null) {
+        $res = array(
+            'error' => array(
+                'message' => $message,
+                'code' => $code,
+            ),
+        );
+    } else {
+        $res = array(
+            'error' => array(
+                'message' => $message,
+                'detail' => $detail,
+                'code' => $code,
+            ),
+        );
+    }
 
     echo json_encode($res, JSON_UNESCAPED_UNICODE);
 }
@@ -29,7 +40,7 @@ $f3->route('GET /get',
         $GLOBALS['params'] = $params;
 
         if (!isset($_GET['year']) || !isset($_GET['month'])) {
-            error(Response::$ERR_MISSING_PARAMS, 101);
+            error(Response::$ERR_MISSING_PARAMS, 101, 'year and month parameters must be filled');
             return;
         } else {
             $date = $_GET['year'] . $_GET['month'];
@@ -39,7 +50,10 @@ $f3->route('GET /get',
             $limit = intval($_GET['limit']);
 
             if ($limit <= 0) {
-                error(Response::$ERR_INVALID_LIMIT, 102);
+                error(Response::$ERR_INVALID_LIMIT, 102, 'limit must be bigger than zero (0)');
+                return;
+            } else if ($limit > 10000) {
+                error(Response::$ERR_INVALID_LIMIT, 102, 'limit must be smaller than ten thousand (10000)');
                 return;
             }
         } else {
@@ -53,7 +67,13 @@ $f3->route('GET /get',
         }
 
         $parser = new Parser();
-        echo json_encode($parser->parse($date, $limit, $city), JSON_UNESCAPED_UNICODE);
+        $data = $parser->parse($date, $limit, $city);
+
+        if ($data) {
+            echo json_encode($data, JSON_UNESCAPED_UNICODE);
+        } else {
+            error(Response::$ERR_NO_RESPONSE, 404);
+        }
     }
 );
 
@@ -67,7 +87,10 @@ $f3->route('GET /last24hours',
             $limit = intval($_GET['limit']);
 
             if ($limit <= 0) {
-                error(Response::$ERR_INVALID_LIMIT, 102);
+                error(Response::$ERR_INVALID_LIMIT, 102, 'limit must be bigger than zero (0)');
+                return;
+            } else if ($limit > 10000) {
+                error(Response::$ERR_INVALID_LIMIT, 102, 'limit must be smaller than ten thousand (10000)');
                 return;
             }
         } else {
@@ -81,6 +104,12 @@ $f3->route('GET /last24hours',
         }
 
         $parser = new Parser();
-        echo json_encode($parser->parse($date, $limit, $city), JSON_UNESCAPED_UNICODE);
+        $data = $parser->parse($date, $limit, $city);
+
+        if ($data) {
+            echo json_encode($data, JSON_UNESCAPED_UNICODE);
+        } else {
+            error(Response::$ERR_NO_RESPONSE, 404);
+        }
     }
 );

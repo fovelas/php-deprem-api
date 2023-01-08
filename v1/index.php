@@ -13,8 +13,9 @@ $f3->route('GET /',
             'app_name' => $config['app_name'],
             'version' => $config['version'],
             'latest_update' => $config['latest_update'],
+            'documentation' => $config['github'],
         );
-        echo json_encode($res);
+        echo json_encode($res, JSON_UNESCAPED_UNICODE);
     }
 );
 

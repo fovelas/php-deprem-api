@@ -12,21 +12,24 @@ class Parser
     {
         $url = 'http://udim.koeri.boun.edu.tr/zeqmap/xmlt/' . strval($date) . '.xml';
 
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET');
-        // curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-        curl_setopt($curl, CURLOPT_URL, $url);
-        $config['useragent'] = 'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:17.0) Gecko/20100101 Firefox/17.0';
-        curl_setopt($curl, CURLOPT_USERAGENT, $config['useragent']);
-        // curl_setopt($curl, CURLOPT_FAILONERROR, true);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_HEADER, false);
-        curl_setopt($curl, CURLOPT_TIMEOUT, 30);
-        $res = curl_exec($curl);
-        $http_status = intval(curl_getinfo($curl, CURLINFO_HTTP_CODE));
-        curl_close($curl);
+        try {
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET');
+            // curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+            curl_setopt($curl, CURLOPT_URL, $url);
+            curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:17.0) Gecko/20100101 Firefox/17.0');
+            // curl_setopt($curl, CURLOPT_FAILONERROR, true);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_HEADER, false);
+            curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+            $res = curl_exec($curl);
+            $http_status = intval(curl_getinfo($curl, CURLINFO_HTTP_CODE));
+            curl_close($curl);
 
-        if ($http_status == 404) {
+            if ($http_status == 404) {
+                return false;
+            }
+        } catch (Exception $err) {
             return false;
         }
 
@@ -46,7 +49,7 @@ class Parser
         $xml_res = $this->get_xml($date);
 
         if ($xml_res == false || $xml_res == null || $xml_res == '') {
-            error(Response::$ERR_NO_RESPONSE, 404);
+            return false;
         }
 
         $earthquakes_array = [];
