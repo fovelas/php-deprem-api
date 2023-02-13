@@ -96,3 +96,5 @@ _Söz konusu bilgi, veri ve haritalar Boğaziçi Üniversitesi Rektörlüğü’
 Bu API Kandilli Rasathanesi'nin yayınladığı deprem verilerini kullanmaktadır.
 
 Referans: http://www.koeri.boun.edu.tr/scripts/lasteq.asp
+
+<b><a href="https://hknsoft.com/">hknsoft</a></b> &copy; 2020-2023
