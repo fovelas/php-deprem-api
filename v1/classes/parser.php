@@ -44,7 +44,7 @@ class Parser
      * @param string $filter_city
      * @return array
      */
-    public function parse($date, $limit = 50, $filter_city = 'none')
+    public function parse($date, $limit = 50, $filter_city = 'none', $filter_magnitude = 0)
     {
         $xml_res = $this->get_xml($date);
 
@@ -95,6 +95,8 @@ class Parser
                 $city = 'YOK';
             }
 
+            $magnitude = doubleval($earthquake['mag']);
+
             $earthquake_obj = array(
                 'date' => $date,
                 'time' => $time,
@@ -107,10 +109,14 @@ class Parser
             );
 
             if ($filter_city == 'none') {
-                $earthquakes_array[] = $earthquake_obj;
+                if ($magnitude >= $filter_magnitude) {
+                    $earthquakes_array[] = $earthquake_obj;
+                }
             } else {
                 if (strtolower($city) == $filter_city) {
-                    $earthquakes_array[] = $earthquake_obj;
+                    if ($magnitude >= $filter_magnitude) {
+                        $earthquakes_array[] = $earthquake_obj;
+                    }
                 }
             }
 

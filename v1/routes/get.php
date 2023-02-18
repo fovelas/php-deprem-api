@@ -35,7 +35,8 @@ function error($message, $code, $detail = null)
 
 $f3 = Base::instance();
 
-$f3->route('GET /get',
+$f3->route(
+    'GET /get',
     function ($f3, $params) {
         $GLOBALS['params'] = $params;
 
@@ -66,8 +67,22 @@ $f3->route('GET /get',
             $city = 'none';
         }
 
+        if (isset($_GET['mag'])) {
+            $mag = doubleval($_GET['mag']);
+
+            if ($mag < 0) {
+                error(Response::$ERR_INVALID_MAGNITUDE, 103, 'magnitude must be bigger than zero (0)');
+                return;
+            } else if ($mag > 11) {
+                error(Response::$ERR_INVALID_MAGNITUDE, 103, 'magnitude must be smaller than eleven (11)');
+                return;
+            }
+        } else {
+            $mag = 0;
+        }
+
         $parser = new Parser();
-        $data = $parser->parse($date, $limit, $city);
+        $data = $parser->parse($date, $limit, $city, $mag);
 
         if ($data) {
             echo json_encode($data, JSON_UNESCAPED_UNICODE);
@@ -77,11 +92,20 @@ $f3->route('GET /get',
     }
 );
 
-$f3->route('GET /last24hours',
+$f3->route(
+    'GET /last24hours',
     function ($f3, $params) {
         $GLOBALS['params'] = $params;
 
         $date = 'son24saat';
+
+        if (isset($_GET['year'])) {
+            error(Response::$ERR_UNNECESSARY_PARAMETER, 104, 'year parameter is unnecessary');
+            return;
+        } else if (isset($_GET['month'])) {
+            error(Response::$ERR_UNNECESSARY_PARAMETER, 104, 'month parameter is unnecessary');
+            return;
+        }
 
         if (isset($_GET['limit'])) {
             $limit = intval($_GET['limit']);
@@ -103,8 +127,22 @@ $f3->route('GET /last24hours',
             $city = 'none';
         }
 
+        if (isset($_GET['mag'])) {
+            $mag = doubleval($_GET['mag']);
+
+            if ($mag < 0) {
+                error(Response::$ERR_INVALID_MAGNITUDE, 103, 'magnitude must be bigger than zero (0)');
+                return;
+            } else if ($mag > 11) {
+                error(Response::$ERR_INVALID_MAGNITUDE, 103, 'magnitude must be smaller than eleven (11)');
+                return;
+            }
+        } else {
+            $mag = 0;
+        }
+
         $parser = new Parser();
-        $data = $parser->parse($date, $limit, $city);
+        $data = $parser->parse($date, $limit, $city, $mag);
 
         if ($data) {
             echo json_encode($data, JSON_UNESCAPED_UNICODE);

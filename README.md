@@ -23,6 +23,7 @@ Kandilli Rasathanesi'nin yayınladığı Türkiye geneli tüm depremler için RE
 | --------- | ------------------ | --------------------------------------------- |
 | year      | Yok (Zorunlu)      | Çekmek istediğiniz yıl.                       |
 | month     | Yok (Zorunlu)      | Çekmek istediğiniz ay.                        |
+| mag       | 0                  | Bu büyüklük ve üzerindeki depremleri getirir. |
 | limit     | 50                 | Maksimum kaç tane veri çekileceğini belirler. |
 | city      | Yok (Tüm şehirler) | Çekmek istediğiniz şehir.                     |
 
@@ -43,14 +44,24 @@ https://api.hknsoft.com/earthquake/v1/get?year=2023&month=01&limit=500
 
 Sadece İstanbul'da gerçekleşen depremleri getirir.
 
-**Şehir isimlerinde türkçe karakter kullanılmamalı ve hepsi küçük harf olmalıdır.**
+**Uyarı:** Şehir isimlerinde türkçe karakter kullanılmamalı ve hepsi küçük harf olmalıdır.
 ~~~
 https://api.hknsoft.com/earthquake/v1/get?year=2023&month=01&limit=500&city=istanbul
+~~~
+
+İstanbul'da gerçekleşen 5.4 ve üzeri büyüklükteki depremleri getirir.
+
+~~~
+https://api.hknsoft.com/earthquake/v1/get?year=2023&month=01&mag=5.4&limit=500&city=istanbul
 ~~~
 
 Son 24 saatte gerçekleşen depremleri getirir.
 ~~~
 https://api.hknsoft.com/earthquake/v1/last24hours
+~~~
+
+~~~
+https://api.hknsoft.com/earthquake/v1/last24hours?mag=7.9&limit=50
 ~~~
 
 ~~~

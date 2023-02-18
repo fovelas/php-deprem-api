@@ -6,7 +6,8 @@ require_once './classes/response.php';
 
 $f3 = Base::instance();
 
-$f3->route('GET /',
+$f3->route(
+    'GET /',
     function () {
         $config = include './config/config.php';
         $res = array(
